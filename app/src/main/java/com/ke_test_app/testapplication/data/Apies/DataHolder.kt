@@ -1,8 +1,26 @@
 package com.ke_test_app.testapplication.data
 
+import android.os.Parcelable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import kotlinx.parcelize.Parcelize
 import java.util.*
+
+class ListsViewModel : ViewModel() {
+
+    // recycleview click
+    val lists = ArticlesRepository.loadArticles()
+
+    // detail fragment click
+    private val mutableSelectedArticle = MutableLiveData<ArticleItemData>()
+    var selectedArticle: LiveData<ArticleItemData>  = mutableSelectedArticle
+
+    fun selectArticle(item: ArticleItemData) {
+        mutableSelectedArticle.value = item
+    }
+
+}
 
 object ArticlesRepository {
     fun loadArticles(): LiveData<List<ArticleItemData>?> = LocalDataHolder.findArticles()
